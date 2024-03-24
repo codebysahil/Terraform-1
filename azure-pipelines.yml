@@ -1,0 +1,29 @@
+trigger:
+- master
+pool:
+  vmImage: 'ubuntu-latest'
+variables:
+  subscription: "YYYYYYYYYYY"
+  resourceGroup: "rg-tfstate"
+  storageAccount: "tf-state"
+  container: "tfstate"
+  tfstateFile: "terraform.tfstate"
+  anyIfChanges: false
+  
+steps:
+- task: TerraformInstaller@0
+  displayName: Install terraform V
+  inputs:
+    terraformVersion = '1.15'
+- task: TerraformTaskV1@0
+   displayName: terraform init
+   inputs:
+       provider: "azurerm"
+       command: 'init'
+       workingDirectory: '$(System.DefaultWorkingDirectory)/test'
+       backendServiceArm: '$(subscription)'
+       backendAzureRmResourceGroupName: '$(resourceGroup)'
+       backenAzureRmStorageAccountName: '$(tf-state)'
+       backendAzureRmContainerName: '$(tfstate)'
+       backenAzureRmKey: '$(tfstateFile)'
+    
