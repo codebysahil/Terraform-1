@@ -26,4 +26,15 @@ steps:
        backenAzureRmStorageAccountName: '$(tf-state)'
        backendAzureRmContainerName: '$(tfstate)'
        backenAzureRmKey: '$(tfstateFile)'
+-  task: TerraformTaskV1@0
+   displayName: terraform plan with output
+   inputs:
+       provider: "azurerm"
+       command: 'init'
+       workingDirectory: '$(System.DefaultWorkingDirectory)/test'
+       backendServiceArm: '$(subscription)'
+       backendAzureRmResourceGroupName: '$(resourceGroup)'
+       backenAzureRmStorageAccountName: '$(tf-state)'
+       backendAzureRmContainerName: '$(tfstate)'
+       backenAzureRmKey: '$(tfstateFile)'
     
